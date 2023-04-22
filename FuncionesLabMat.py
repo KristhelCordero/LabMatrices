@@ -49,7 +49,7 @@ def definirRenta(piso,local,alquiler,matriz):
     matriz[int(piso)-1][int(local)-1]=alquiler
     return matriz
 
-def opcion1Aux(edificio):
+def imprimirOpcion1Aux(edificio):
     estado=True
     while estado:
         piso=input("Ingrese el piso en el que se encuentra el local a alquilar: ")
@@ -63,7 +63,7 @@ def opcion1Aux(edificio):
             print("¡¡¡Algo anda mal!!!\n El local no se encuentra disponible\nPor favor ingrese un numero de local disponible")
     return edificio
 
-def opcion2Aux(edificio):
+def imprimirOpcion2Aux(edificio):
     estado=True
     while estado:
         piso=input("Ingrese el piso en el que se encuentra el local a modificar: ")
@@ -82,7 +82,7 @@ def opcion2Aux(edificio):
             print("¡¡¡Algo anda mal!!!\n El local no se encuentra alquilado\nPor favor ingrese un numero de local que pueda modificarse")
     return edificio
 
-def opcion3Aux(edificio):
+def imprimirOpcion3Aux(edificio):
     estado=True
     while estado:
         piso=input("Ingrese el piso en el que se encuentra el local a desalojar: ")
@@ -92,14 +92,93 @@ def opcion3Aux(edificio):
             if not contesta:
                 estado=contestacion('¿Desea continuar desalojando locales?')
             else:
-                monto=0
-                edificio=definirRenta(piso,local,monto,edificio)
+                edificio=definirRenta(piso,local,0,edificio)
                 print("El local se ha desalojado de manera correcta")
                 estado=contestacion('¿Desea desalojar otro local?')
         else:
             print("¡¡¡Algo anda mal!!!")
             print("\nEl local no se encuentra alquilado\nPor favor ingrese un numero de local que si esté alquilado, para modificarlo")
     return edificio
+
+def indicarIngresoXLocal(piso,local,edificio):
+    if determinarDisponLocal(piso,local,edificio):
+        print("El local no está alquilado")
+        return False
+    return edificio[int(piso)-1][int(local)-1]
+
+def indicarIngresoXPiso(piso,edificio):
+    totalPiso= 0
+    print("\nPiso #"+str(piso))
+    for i in range(len(edificio[int(piso)-1])):
+        print("Local #"+str(i+1))
+        print("Monto de alquiler $: "+str(edificio[int(piso)-1][i]))
+        totalPiso+=edificio[int(piso)-1][i]
+    return totalPiso
+
+def indicarIngresoXColumna(columna,edificio):
+    totalColumna=0
+    for i in range(len(edificio)):
+        print("Piso #"+str(i+1))
+        print("Local #"+str(columna))
+        print("Monto de alquiler $: "+str(edificio[i][int(columna)-1])+"\n")
+        totalColumna+=edificio[i][int(columna)-1]
+    return totalColumna
+
+def indicarIngresoTotal(edificio):
+    total= 0
+    for piso in range(len(edificio)):
+        for i in range(len(edificio[piso])):
+            print("\nPiso #"+str(piso+1))
+            print("Local #"+str(i+1))
+            print("Monto de alquiler $: "+str(edificio[piso][i]))
+            total+=edificio[piso][i]
+    return total
+    
+def imprimirOpcion4Aux(edificio):
+    estado=True
+    while estado:
+        print("MENÚ".center(90,"="))
+        print("En que formato desea ver los ingresos del edificio:")
+        print("   1.Por local\n   2.Por piso\n   3.Por columna\n   4.Totalidad del edificio\n")
+        opcion=input("Digite el número de la opción a escoger: ")
+        #validar opcion
+        if int(opcion)==1:
+            #validar existencia piso y local
+            piso=input("Ingrese el numero de piso en el que se encuentra el local: " )
+            local=input("Ingrese el número del local del cual desea saber los ingresos: ")
+            total=indicarIngresoXLocal(piso,local,edificio)
+            print("El ingreso del local es: "+str(total))
+        elif int(opcion)==2:
+            #validar existencia piso y local
+            piso=input("Ingrese el número del piso de la cual desea saber los ingresos: ")
+            total=indicarIngresoXPiso(piso,edificio)
+            print("Para un total de ingresos del piso de $:"+str(total))
+        elif int(opcion)==3:
+            #validar existencia piso y local
+            columna=input("Ingrese el número de la columna de la cual desea saber los ingresos: ")
+            total=indicarIngresoXColumna(columna,edificio)
+            print("Para un total de ingresos por columna de $:"+str(total))
+        else:
+            total=indicarIngresoTotal(edificio)
+            print("Para un total de ganancias de $:"+str(total))
+
+        
+        if determinarDisponLocal(piso,local,edificio)==False:
+            contesta=contestacion('¿Está seguro que desea alterar la renta actual del local?')
+            if not contesta:
+                estado=contestacion('¿Desea continuar modificando alquileres?')
+            else:
+                monto=input("Ingrese el nuevo monto del alquiler: ")
+                if validacionMonto(monto,edificio,piso,local):
+                    edificio=definirRenta(piso,local,monto,edificio)
+                    print('¡El alquiler del local fue modificado satisfactoriamente!')
+                    estado=contestacion('¿Desea continuar modificando alquileres?')
+        else:
+            print("¡¡¡Algo anda mal!!!\n El local no se encuentra alquilado\nPor favor ingrese un numero de local que pueda modificarse")
+    return edificio
+
+
+
 
 def EyS():
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
@@ -111,20 +190,21 @@ def EyS():
     print("\n   4. Indicar ingreso por alquiler\n   5. Reporte total del edificio\n   6. Salir\n")
     opcion=input("Ingrese la opción deseada: ")
     if int(opcion)==1:
-        edificio=opcion1Aux(edificio)
+        edificio=imprimirOpcion1Aux(edificio)
     elif int(opcion)==2:
-        edificio=opcion2Aux(edificio)
+        edificio=imprimirOpcion2Aux(edificio)
     elif int(opcion)==3:
-        edificio=opcion3Aux(edificio)
+        edificio=imprimirOpcion3Aux(edificio)
     elif int(opcion)==4:
-        #opcion4Aux(edificio)
+        imprimirOpcion4Aux(edificio)
     #elif int(opcion)==5:
         #opcion5Aux(edificio)
     #else:
         #salir
         return ''
 
-print(opcion3Aux([[0,1,0],[0,0,0],[0,0,0]]))
+
+
 
 
 
