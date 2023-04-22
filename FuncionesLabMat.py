@@ -177,9 +177,6 @@ def imprimirOpcion4Aux(edificio):
             print("¡¡¡Algo anda mal!!!\n El local no se encuentra alquilado\nPor favor ingrese un numero de local que pueda modificarse")
     return edificio
 
-
-
-
 def EyS():
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
     cantPisos=input("Por favor ingrese la cantidad de pisos de su edificio: ")
