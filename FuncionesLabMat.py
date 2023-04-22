@@ -102,7 +102,7 @@ def imprimirOpcion3Aux(edificio):
 
 def indicarIngresoXLocal(piso,local,edificio):
     if determinarDisponLocal(piso,local,edificio):
-        print("El local no está alquilado")
+        print("\nEl local no está alquilado")
         return False
     return edificio[int(piso)-1][int(local)-1]
 
@@ -118,9 +118,9 @@ def indicarIngresoXPiso(piso,edificio):
 def indicarIngresoXColumna(columna,edificio):
     totalColumna=0
     for i in range(len(edificio)):
-        print("Piso #"+str(i+1))
+        print("\nPiso #"+str(i+1))
         print("Local #"+str(columna))
-        print("Monto de alquiler $: "+str(edificio[i][int(columna)-1])+"\n")
+        print("Monto de alquiler $: "+str(edificio[i][int(columna)-1]))
         totalColumna+=edificio[i][int(columna)-1]
     return totalColumna
 
@@ -138,44 +138,38 @@ def imprimirOpcion4Aux(edificio):
     estado=True
     while estado:
         print("MENÚ".center(90,"="))
-        print("En que formato desea ver los ingresos del edificio:")
+        print("Indique en qué formato desea ver los ingresos del edificio:")
         print("   1.Por local\n   2.Por piso\n   3.Por columna\n   4.Totalidad del edificio\n")
         opcion=input("Digite el número de la opción a escoger: ")
         #validar opcion
         if int(opcion)==1:
             #validar existencia piso y local
-            piso=input("Ingrese el numero de piso en el que se encuentra el local: " )
-            local=input("Ingrese el número del local del cual desea saber los ingresos: ")
-            total=indicarIngresoXLocal(piso,local,edificio)
-            print("El ingreso del local es: "+str(total))
+            repetirOpcion1=True
+            while repetirOpcion1:
+                piso=input("\nIngrese el numero de piso en el que se encuentra el local: " )
+                local=input("Ingrese el número del local del cual desea saber los ingresos: ")
+                total=indicarIngresoXLocal(piso,local,edificio)
+                if total!=False:
+                    print("\nEl ingreso del local es: "+str(total))
+                    repetirOpcion1=False
+                else:
+                    repetirOpcion1=contestacion("¿Desea ingresar otro local?")
         elif int(opcion)==2:
             #validar existencia piso y local
-            piso=input("Ingrese el número del piso de la cual desea saber los ingresos: ")
+            piso=input("\nIngrese el número del piso de la cual desea saber los ingresos: ")
             total=indicarIngresoXPiso(piso,edificio)
-            print("Para un total de ingresos del piso de $:"+str(total))
+            print("\nPara un total de ingresos del piso de $: "+str(total))
         elif int(opcion)==3:
             #validar existencia piso y local
-            columna=input("Ingrese el número de la columna de la cual desea saber los ingresos: ")
+            columna=input("\nIngrese el número de la columna de la cual desea saber los ingresos: ")
             total=indicarIngresoXColumna(columna,edificio)
-            print("Para un total de ingresos por columna de $:"+str(total))
+            print("\nPara un total de ingresos por columna de $: "+str(total))
         else:
             total=indicarIngresoTotal(edificio)
-            print("Para un total de ganancias de $:"+str(total))
+            print("\nPara un total de ganancias de $: "+str(total))
+        estado=contestacion("Desea continuar consultando ingresos")
+    return""
 
-        
-        if determinarDisponLocal(piso,local,edificio)==False:
-            contesta=contestacion('¿Está seguro que desea alterar la renta actual del local?')
-            if not contesta:
-                estado=contestacion('¿Desea continuar modificando alquileres?')
-            else:
-                monto=input("Ingrese el nuevo monto del alquiler: ")
-                if validacionMonto(monto,edificio,piso,local):
-                    edificio=definirRenta(piso,local,monto,edificio)
-                    print('¡El alquiler del local fue modificado satisfactoriamente!')
-                    estado=contestacion('¿Desea continuar modificando alquileres?')
-        else:
-            print("¡¡¡Algo anda mal!!!\n El local no se encuentra alquilado\nPor favor ingrese un numero de local que pueda modificarse")
-    return edificio
 
 
 
@@ -202,6 +196,10 @@ def EyS():
     #else:
         #salir
         return ''
+    
+print(imprimirOpcion4Aux([[500,200,0],
+                        [100,0,1500],
+                        [0,150,20]]))
 
 
 
