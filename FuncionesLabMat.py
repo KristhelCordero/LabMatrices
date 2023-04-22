@@ -2,6 +2,16 @@ import re
 
 #Validaciones
 def validacionRangoMat(fila,columna,matriz):
+    '''
+    Funcionalidad: Determina si la fila y columna ingresadas existen en la matriz
+    Entradas:
+    - fila(int): dato ingresado por el usuario
+    - columna(int): dato ingresado por el ussuario 
+    - matriz(list): matriz base en la que se debe comprobar que exista la columna y fila ingresadas
+    Salidas:
+    - True
+    - False
+    '''
     noMenoresCero=fila>=0 and columna>=0
     if len(matriz)>=fila and len(matriz[0])>=columna and noMenoresCero:
         return True
@@ -16,7 +26,7 @@ def esDigito(num):
     - True
     - False
     '''
-    if re.match("^(\d+)$",str(num)):
+    if re.match("^\d+$",str(num)):
         return True
     return False
 
@@ -64,16 +74,36 @@ def contestacion(mensaje):
     return False
 
 def validacionMonto(monto,edificio,piso,local):
-    estado=True
-    while estado:
-        if re.match('^\d+$',str(monto)):
-            if monto!=edificio[int(piso)-1][int(local)-1]:
-                return True
-        else:
-            print('El monto ingresado debe ser un número entero positivo')
+    '''
+    Funcionalidad: Determina si el monto ingresado por el usuario es digito y diferente al anterior registrado 
+    Entradas:
+    - monto(int): nuevo alquiler ingresado por el usuario
+    - piso(int): piso donde se encuentra el local 
+    - local(int): número de local
+    - edificio(list): matriz donde se encuentran registrados los alquileres
+    Salidas:
+    - True
+    - False
+    '''
+    if esDigito(monto):
+        if monto!=edificio[int(piso)-1][int(local)-1]:
+            return True
+    else:
+        print('El monto ingresado debe ser un número entero positivo')
     return False
 
 def determinarDisponLocal(piso,local,matriz):
+    '''
+    Funcionalidad: Determina si el monto ingresado por el usuario es digito y diferente al anterior registrado 
+    Entradas:
+    - monto(int): nuevo alquiler ingresado por el usuario
+    - piso(int): piso donde se encuentra el local 
+    - local(int): número de local
+    - edificio(list): matriz donde se encuentran registrados los alquileres
+    Salidas:
+    - True
+    - False
+    '''
     if matriz[int(piso)-1][int(local)-1]==0:
         return True
     return False
@@ -121,11 +151,16 @@ def imprimirOpcion2Aux(edificio):
                 if not contesta:
                     estado=contestacion('¿Desea continuar modificando alquileres?')
                 else:
-                    monto=input("Ingrese el nuevo monto del alquiler: ")
-                    if validacionMonto(monto,edificio,piso,local):
-                        edificio=definirRenta(piso,local,monto,edificio)
-                        print('¡El alquiler del local fue modificado satisfactoriamente!')
-                        estado=contestacion('¿Desea continuar modificando alquileres?')
+                    constante=True
+                    while constante:
+                        monto=input("Ingrese el nuevo monto del alquiler: ")
+                        if validacionMonto(monto,edificio,piso,local):
+                            constante=False
+                            edificio=definirRenta(piso,local,monto,edificio)
+                            print('¡El alquiler del local fue modificado satisfactoriamente!')
+                            estado=contestacion('¿Desea continuar modificando alquileres?')
+                        else:
+                            print("El monto ingresado debe ser diferente al actual")
             else:
                 print("¡¡¡Algo anda mal!!!\n El local no se encuentra alquilado\nPor favor ingrese un numero de local que pueda modificarse")
         else:
