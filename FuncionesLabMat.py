@@ -171,9 +171,6 @@ def imprimirOpcion4Aux(edificio):
     return""
 
 
-
-
-
 def EyS():
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
     cantPisos=input("Por favor ingrese la cantidad de pisos de su edificio: ")
