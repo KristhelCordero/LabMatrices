@@ -102,7 +102,6 @@ def opcion3Aux(edificio):
             print("\nEl local no se encuentra alquilado\nPor favor ingrese un numero de local que si esté alquilado, para modificarlo")
     return edificio
 
-
 def EyS():
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
     cantPisos=input("Por favor ingrese la cantidad de pisos de su edificio: ")
@@ -125,10 +124,6 @@ def EyS():
     else:
         #salir
         return ''
-    
-
-        
-
 
 print(opcion3Aux([[0,1,0],[0,0,0],[0,0,0]]))
 
