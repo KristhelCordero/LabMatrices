@@ -4,8 +4,6 @@ def validacionRangoMat(fila,columna,matriz):
     if len(matriz)>=fila and len(matriz[0])>=columna and noMenoresCero:
         return True
     return False
-  
-
 def contestacion(mensaje):
     '''
     Funcionalidad: Pide al usuario una contestacion y se repite hasta que sea valida
@@ -118,10 +116,10 @@ def EyS():
     elif int(opcion)==3:
         edificio=opcion3Aux(edificio)
     elif int(opcion)==4:
-        opcion4Aux(edificio)
-    elif int(opcion)==5:
-        opcion5Aux(edificio)
-    else:
+        #opcion4Aux(edificio)
+    #elif int(opcion)==5:
+        #opcion5Aux(edificio)
+    #else:
         #salir
         return ''
     
