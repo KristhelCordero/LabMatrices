@@ -1,4 +1,10 @@
 import re
+def validacionRangoMat(fila,columna,matriz):
+    noMenoresCero=fila>=0 and columna>=0
+    if len(matriz)>=fila and len(matriz[0])>=columna and noMenoresCero:
+        return True
+    return False
+  
 
 def contestacion(mensaje):
     '''
