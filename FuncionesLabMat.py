@@ -170,6 +170,42 @@ def imprimirOpcion4Aux(edificio):
         estado=contestacion("Desea continuar consultando ingresos")
     return""
 
+def calDisponiblesyOcupados(pmat):
+    cantDisponibles=0
+    cantOcupados=0
+    for f in range(len(pmat)):
+        for c in range(len(pmat[f])):
+            if pmat[f][c]==0:
+                cantDisponibles+=1
+            else:
+                cantOcupados+=1
+    return [cantDisponibles,cantOcupados]
+             
+def calcularPorcentajeMat(pnum,pmat):
+    '''
+    Funcionalidad: calcula con un número ingresado que indica una cantidad de elementos su porcentaje dentro de la matriz
+    Entradas:
+    -pnum: numero de elementos a sacar porcentaje
+    -matriz: matriz a comparar
+    Salidas:
+    - porcentaje de elementos ingresados comparado con el total de elementos de la matriz
+    '''
+    resultado=0
+    totalElementos=0
+    for f in range(len(pmat)):
+        for c in range(len(pmat[f])):
+            totalElementos+=1
+    resultado=(pnum*100)/totalElementos
+    return resultado
+
+def imprimirOpcion5Aux(edificio):
+    print("Reporte total del Edificio".center(90,"="))
+    disponibles=calDisponiblesyOcupados(edificio)[0]
+    ocupados=calDisponiblesyOcupados(edificio)[1]
+    print("\nTotal de locales alquilados: "+str(ocupados)+", para un porcentaje de: "+str(round(calcularPorcentajeMat(ocupados,edificio),2))+"%")
+    print("Total de locales desocupados: "+str(disponibles)+", para un porcentaje de: "+str(round(calcularPorcentajeMat(disponibles,edificio),2))+"%")
+    return ""
+
 
 def EyS():
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
@@ -189,15 +225,17 @@ def EyS():
     elif int(opcion)==4:
         imprimirOpcion4Aux(edificio)
     #elif int(opcion)==5:
-        #opcion5Aux(edificio)
+        imprimirOpcion5Aux(edificio)
     #else:
         #salir
         return ''
     
-print(imprimirOpcion4Aux([[500,200,0],
-                        [100,0,1500],
-                        [0,150,20]]))
-
+#print(imprimirOpcion4Aux([[500,200,0],
+#                        [100,0,1500],
+#                        [0,150,20]]))
+print(imprimirOpcion5Aux([[100,100,10,0],
+                        [100,10,00,0],
+                        [0,100,00,0]]))
 
 
 
