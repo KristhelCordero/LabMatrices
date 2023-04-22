@@ -1,10 +1,10 @@
 import re
+
 def validacionRangoMat(fila,columna,matriz):
     noMenoresCero=fila>=0 and columna>=0
     if len(matriz)>=fila and len(matriz[0])>=columna and noMenoresCero:
         return True
     return False
-  
 
 def contestacion(mensaje):
     '''
@@ -101,6 +101,7 @@ def opcion3Aux(edificio):
             print("¡¡¡Algo anda mal!!!")
             print("\nEl local no se encuentra alquilado\nPor favor ingrese un numero de local que si esté alquilado, para modificarlo")
     return edificio
+
 
 def EyS():
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
