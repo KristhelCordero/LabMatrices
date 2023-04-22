@@ -30,7 +30,6 @@ def esDigito(num):
         return True
     return False
 
-
 def validarDigitos(pnum,tope):
     '''
     Funcionalidad: verifica que el dato ingresado sea un dígito entre 1 y el tope
@@ -238,7 +237,6 @@ def imprimirMenuOpcion4():
         return opcion
     print("Debe ingresar un numero del 1 al 5")
     return imprimirMenuOpcion4
-
     
 def imprimirOpcion4Aux(edificio):
     estado=True
@@ -274,7 +272,6 @@ def imprimirOpcion4Aux(edificio):
             return""
     estado=contestacion("¿Desea continuar consultando ingresos?: ")
     return""
-
 
 def calDisponiblesyOcupados(pmat):
     cantDisponibles=0
@@ -312,7 +309,6 @@ def imprimirOpcion5Aux(edificio):
     print("Total de locales desocupados: "+str(disponibles)+", para un porcentaje de: "+str(round(calcularPorcentajeMat(disponibles,edificio),2))+"%")
     return ""
 
-
 def imprimirMenu():
     while True:
         print("\n"+"Menú".center(90,"="))
@@ -345,6 +341,7 @@ def EyS():
             edificio=imprimirOpcion3Aux(edificio)
         elif int(opcion)==4:
             imprimirOpcion4Aux(edificio)
+
         elif int(opcion)==5:
             imprimirOpcion5Aux(edificio)
         else:
@@ -353,9 +350,6 @@ def EyS():
     print('\nFIN'.center(90,'='))
     return ''
 
-
-
-    
 #Progrma principal
 EyS()
 
