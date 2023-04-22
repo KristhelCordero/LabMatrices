@@ -1,4 +1,5 @@
 import re
+
 def validacionRangoMat(fila,columna,matriz):
     noMenoresCero=fila>=0 and columna>=0
     if len(matriz)>=fila and len(matriz[0])>=columna and noMenoresCero:
@@ -122,10 +123,6 @@ def EyS():
     #else:
         #salir
         return ''
-    
-
-        
-
 
 print(opcion3Aux([[0,1,0],[0,0,0],[0,0,0]]))
 
