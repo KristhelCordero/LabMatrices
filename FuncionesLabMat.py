@@ -1,10 +1,51 @@
 import re
 
+#Validaciones
 def validacionRangoMat(fila,columna,matriz):
     noMenoresCero=fila>=0 and columna>=0
     if len(matriz)>=fila and len(matriz[0])>=columna and noMenoresCero:
         return True
     return False
+
+def esDigito(num):
+    '''
+    Funcionalidad: Determina si un dato ingresado es un dígito o no
+    Entradas:
+    - num(str): dato ingresado por el usuario
+    Salidas:
+    - True
+    - False
+    '''
+    if re.match("^(\d+)$",str(num)):
+        return True
+    return False
+
+def validarDigitos4(pnum):
+    '''
+    Funcionalidad: verifica que el dato ingresado sea un dígito entre 1 y 4 
+    Entradas: 
+    -pnum: tipo de decodificacion escogida
+    Salidas:
+    -True
+    -False
+    '''
+    if re.match('^[1-4]$',str(pnum)):
+        return True
+    return False
+
+def validarDigitos6(pnum):
+    '''
+    Funcionalidad: verifica que el dato ingresado sea un dígito entre 1 y 6
+    Entradas: 
+    -pnum: tipo de decodificacion escogida
+    Salidas:
+    -True
+    -False
+    '''
+    if re.match('^[1-6]$',str(pnum)):
+        return True
+    return False
+
 def contestacion(mensaje):
     '''
     Funcionalidad: Pide al usuario una contestacion y se repite hasta que sea valida
@@ -31,7 +72,13 @@ def validacionMonto(monto,edificio,piso,local):
         else:
             print('El monto ingresado debe ser un número entero positivo')
     return False
-            
+
+def determinarDisponLocal(piso,local,matriz):
+    if matriz[int(piso)-1][int(local)-1]==0:
+        return True
+    return False
+
+#Definción de Funciones 
 def generarMatriz(filas,columnas):
     matriz=[]
     for i in range(int(filas)):
@@ -39,11 +86,6 @@ def generarMatriz(filas,columnas):
         for y in range(int(columnas)):
             matriz[i].append(0)
     return matriz
-
-def determinarDisponLocal(piso,local,matriz):
-    if matriz[int(piso)-1][int(local)-1]==0:
-        return True
-    return False
 
 def definirRenta(piso,local,alquiler,matriz):
     matriz[int(piso)-1][int(local)-1]=alquiler
@@ -54,13 +96,18 @@ def imprimirOpcion1Aux(edificio):
     while estado:
         piso=input("Ingrese el piso en el que se encuentra el local a alquilar: ")
         local=input("Ingrese el número del local a alquilar: ")
-        if determinarDisponLocal(piso,local,edificio):
-            monto=input("Ingrese el monto del alquiler: ")
-            edificio=definirRenta(piso,local,monto,edificio)
-            print("El alquiler del local fue registrado correctamente")
-            estado=contestacion('¿Desea alquilar otro local?')
+        if validacionRangoMat(piso,local,edificio):
+            if determinarDisponLocal(piso,local,edificio):
+                monto=input("Ingrese el monto del alquiler: ")
+                edificio=definirRenta(piso,local,monto,edificio)
+                print("El alquiler del local fue registrado correctamente")
+                estado=contestacion('¿Desea alquilar otro local?')
+            else:
+                print("¡¡¡Algo anda mal!!!\n El local no se encuentra disponible")
+                print("\nPor favor ingrese un numero de local disponible")
         else:
-            print("¡¡¡Algo anda mal!!!\n El local no se encuentra disponible\nPor favor ingrese un numero de local disponible")
+            print("El local ingresado no existe, por favor verifique que: ")
+            print("El número de piso este entre 1-"+str(len(edificio))+"\nEl número de local este entre 1-"+str(len(edificio[0]))+"\n")
     return edificio
 
 def imprimirOpcion2Aux(edificio):
@@ -68,45 +115,61 @@ def imprimirOpcion2Aux(edificio):
     while estado:
         piso=input("Ingrese el piso en el que se encuentra el local a modificar: ")
         local=input("Ingrese el número del local a modificar: ")
-        if determinarDisponLocal(piso,local,edificio)==False:
-            contesta=contestacion('¿Está seguro que desea alterar la renta actual del local?')
-            if not contesta:
-                estado=contestacion('¿Desea continuar modificando alquileres?')
-            else:
-                monto=input("Ingrese el nuevo monto del alquiler: ")
-                if validacionMonto(monto,edificio,piso,local):
-                    edificio=definirRenta(piso,local,monto,edificio)
-                    print('¡El alquiler del local fue modificado satisfactoriamente!')
+        if validacionRangoMat(piso,local,edificio):
+            if determinarDisponLocal(piso,local,edificio)==False:
+                contesta=contestacion('¿Está seguro que desea alterar la renta actual del local?')
+                if not contesta:
                     estado=contestacion('¿Desea continuar modificando alquileres?')
+                else:
+                    monto=input("Ingrese el nuevo monto del alquiler: ")
+                    if validacionMonto(monto,edificio,piso,local):
+                        edificio=definirRenta(piso,local,monto,edificio)
+                        print('¡El alquiler del local fue modificado satisfactoriamente!')
+                        estado=contestacion('¿Desea continuar modificando alquileres?')
+            else:
+                print("¡¡¡Algo anda mal!!!\n El local no se encuentra alquilado\nPor favor ingrese un numero de local que pueda modificarse")
         else:
-            print("¡¡¡Algo anda mal!!!\n El local no se encuentra alquilado\nPor favor ingrese un numero de local que pueda modificarse")
+            print("El local ingresado no existe, por favor verifique que: ")
+            print("El número de piso este entre 1-"+str(len(edificio))+"\nEl número de local este entre 1-"+str(len(edificio[0]))+"\n")
     return edificio
 
 def imprimirOpcion3Aux(edificio):
     estado=True
     while estado:
-        piso=input("Ingrese el piso en el que se encuentra el local a desalojar: ")
-        local=input("Ingrese el número del local a desalojar: ")
-        if determinarDisponLocal(piso,local,edificio)==False:
-            contesta=contestacion('¿Está seguro que desea desalojar este local?')
-            if not contesta:
-                estado=contestacion('¿Desea continuar desalojando locales?')
+        if validacionRangoMat(piso,local,edificio):
+            piso=input("Ingrese el piso en el que se encuentra el local a desalojar: ")
+            local=input("Ingrese el número del local a desalojar: ")
+            if determinarDisponLocal(piso,local,edificio)==False:
+                contesta=contestacion('¿Está seguro que desea desalojar este local?')
+                if not contesta:
+                    print("El local no se ha desalojado")
+                    estado=contestacion('¿Desea continuar desalojando locales?')
+                else:
+                    edificio=definirRenta(piso,local,0,edificio)
+                    print("El local se ha desalojado de manera correcta")
+                    estado=contestacion('¿Desea desalojar otro local?')
             else:
-                edificio=definirRenta(piso,local,0,edificio)
-                print("El local se ha desalojado de manera correcta")
-                estado=contestacion('¿Desea desalojar otro local?')
+                print("¡¡¡Algo anda mal!!!")
+                print("\nEl local no se encuentra alquilado\nPor favor ingrese un numero de local que si esté alquilado, para desalojarlo")
         else:
-            print("¡¡¡Algo anda mal!!!")
-            print("\nEl local no se encuentra alquilado\nPor favor ingrese un numero de local que si esté alquilado, para modificarlo")
+            print("El local ingresado no existe, por favor verifique que: ")
+            print("El número de piso este entre 1-"+str(len(edificio))+"\nEl número de local este entre 1-"+str(len(edificio[0]))+"\n")
     return edificio
 
 def indicarIngresoXLocal(piso,local,edificio):
+    if not validacionRangoMat(piso,local,edificio):
+        print("El local ingresado no existe, por favor verifique que: ")
+        print("El número de piso este entre 1-"+str(len(edificio))+"\nEl número de local este entre 1-"+str(len(edificio[0]))+"\n")
+        return False    
     if determinarDisponLocal(piso,local,edificio):
         print("El local no está alquilado")
-        return False
     return edificio[int(piso)-1][int(local)-1]
 
 def indicarIngresoXPiso(piso,edificio):
+    if not validacionRangoMat(piso,1,edificio):
+        print("El local ingresado no existe, por favor verifique que: ")
+        print("El número de piso este entre 1-"+str(len(edificio)))
+        return False
     totalPiso= 0
     print("\nPiso #"+str(piso))
     for i in range(len(edificio[int(piso)-1])):
@@ -116,6 +179,10 @@ def indicarIngresoXPiso(piso,edificio):
     return totalPiso
 
 def indicarIngresoXColumna(columna,edificio):
+    if not validacionRangoMat(1,columna,edificio):
+        print("El local ingresado no existe, por favor verifique que: ")
+        print("El número de columna este entre 1-"+str(len(edificio[0])))
+        return False
     totalColumna=0
     for i in range(len(edificio)):
         print("Piso #"+str(i+1))
@@ -141,64 +208,72 @@ def imprimirOpcion4Aux(edificio):
         print("En que formato desea ver los ingresos del edificio:")
         print("   1.Por local\n   2.Por piso\n   3.Por columna\n   4.Totalidad del edificio\n")
         opcion=input("Digite el número de la opción a escoger: ")
-        #validar opcion
+        constante=True
         if int(opcion)==1:
-            #validar existencia piso y local
-            piso=input("Ingrese el numero de piso en el que se encuentra el local: " )
-            local=input("Ingrese el número del local del cual desea saber los ingresos: ")
-            total=indicarIngresoXLocal(piso,local,edificio)
+            while constante:
+                piso=input("Ingrese el numero de piso en el que se encuentra el local: " )
+                local=input("Ingrese el número del local del cual desea saber los ingresos: ")
+                total=indicarIngresoXLocal(piso,local,edificio)
+                if total!=False:
+                    constante=False
             print("El ingreso del local es: "+str(total))
         elif int(opcion)==2:
-            #validar existencia piso y local
-            piso=input("Ingrese el número del piso de la cual desea saber los ingresos: ")
-            total=indicarIngresoXPiso(piso,edificio)
+            while constante:
+                piso=input("Ingrese el número del piso de la cual desea saber los ingresos: ")
+                total=indicarIngresoXPiso(piso,edificio)
+                if total!=False:
+                    constante=False
             print("Para un total de ingresos del piso de $:"+str(total))
         elif int(opcion)==3:
-            #validar existencia piso y local
-            columna=input("Ingrese el número de la columna de la cual desea saber los ingresos: ")
-            total=indicarIngresoXColumna(columna,edificio)
+            while constante:
+                columna=input("Ingrese el número de la columna de la cual desea saber los ingresos: ")
+                total=indicarIngresoXColumna(columna,edificio)
+                if total!=False:
+                    constante=False
             print("Para un total de ingresos por columna de $:"+str(total))
         else:
             total=indicarIngresoTotal(edificio)
             print("Para un total de ganancias de $:"+str(total))
 
-        
-        if determinarDisponLocal(piso,local,edificio)==False:
-            contesta=contestacion('¿Está seguro que desea alterar la renta actual del local?')
-            if not contesta:
-                estado=contestacion('¿Desea continuar modificando alquileres?')
-            else:
-                monto=input("Ingrese el nuevo monto del alquiler: ")
-                if validacionMonto(monto,edificio,piso,local):
-                    edificio=definirRenta(piso,local,monto,edificio)
-                    print('¡El alquiler del local fue modificado satisfactoriamente!')
-                    estado=contestacion('¿Desea continuar modificando alquileres?')
+def imprimirMenu():
+    while True:
+        print("\nMenú".center(90,"="))
+        print("\n   1. Alquilar local\n   2. Modificar renta de un local\n   3. Desalojar local")
+        print("\n   4. Indicar ingreso por alquiler\n   5. Reporte total del edificio\n   6. Salir\n")
+        opcion=input("Ingrese la opción deseada: ")
+        if not validarDigitos6(opcion):
+            print("Opción no válida")
+            print("Debe ingresar un valor entero entre 1-6")
         else:
-            print("¡¡¡Algo anda mal!!!\n El local no se encuentra alquilado\nPor favor ingrese un numero de local que pueda modificarse")
-    return edificio
+            break
+    return opcion
 
 def EyS():
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
     cantPisos=input("Por favor ingrese la cantidad de pisos de su edificio: ")
     cantLocales=input("Por favor ingrese la cantidad de locales por piso: ")
+    if not (esDigito(cantPisos) or esDigito(cantLocales)):
+        print("\nDebe ingresar número enteros positivos mayores que 0\nPor favor inténtelo nuevamente\n")
+        return EyS()
     edificio=generarMatriz(cantPisos,cantLocales)
-    print("\nMenú".center(90,"="))
-    print("\n   1. Alquilar local\n   2. Modificar renta de un local\n   3. Desalojar local")
-    print("\n   4. Indicar ingreso por alquiler\n   5. Reporte total del edificio\n   6. Salir\n")
-    opcion=input("Ingrese la opción deseada: ")
-    if int(opcion)==1:
-        edificio=imprimirOpcion1Aux(edificio)
-    elif int(opcion)==2:
-        edificio=imprimirOpcion2Aux(edificio)
-    elif int(opcion)==3:
-        edificio=imprimirOpcion3Aux(edificio)
-    elif int(opcion)==4:
-        imprimirOpcion4Aux(edificio)
-    #elif int(opcion)==5:
-        #opcion5Aux(edificio)
-    #else:
-        #salir
-        return ''
+    respuesta=True
+    while respuesta:
+        opcion=imprimirMenu()
+        if int(opcion)==1:
+            edificio=imprimirOpcion1Aux(edificio)
+        elif int(opcion)==2:
+            edificio=imprimirOpcion2Aux(edificio)
+        elif int(opcion)==3:
+            edificio=imprimirOpcion3Aux(edificio)
+        elif int(opcion)==4:
+            imprimirOpcion4Aux(edificio)
+        #elif int(opcion)==5:
+            #opcion5Aux(edificio)
+        #else:
+            respuesta=contestacion('¿Está seguro que desea salir?')
+    print('\n¡Gracias por utilizar el sistema!'.center(90,' '))
+    print('\nFIN'.center(90,'='))
+    return ''
 
 
 
