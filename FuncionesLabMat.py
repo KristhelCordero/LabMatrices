@@ -120,7 +120,11 @@ def imprimirOpcion1Aux(edificio):
             return imprimirOpcion1Aux(edificio)
         if validacionRangoMat(piso,local,edificio):
             if determinarDisponLocal(piso,local,edificio):
-                monto=input("Ingrese el monto del alquiler: ")
+                constante=True
+                while constante:
+                    monto=input("Ingrese el monto del alquiler: ")
+                    if validacionMonto(monto,edificio,piso,local):
+                        constante=False
                 edificio=definirRenta(piso,local,monto,edificio)
                 print("El alquiler del local fue registrado correctamente")
             else:
@@ -149,8 +153,8 @@ def imprimirOpcion2Aux(edificio):
                         monto=input("Ingrese el nuevo monto del alquiler: ")
                         if validacionMonto(monto,edificio,piso,local):
                             constante=False
-                            edificio=definirRenta(piso,local,monto,edificio)
-                            print('¡El alquiler del local fue modificado satisfactoriamente!')
+                    edificio=definirRenta(piso,local,monto,edificio)
+                    print('¡El alquiler del local fue modificado satisfactoriamente!')
             else:
                 print("\nEl local no se encuentra alquilado\nPor favor ingrese un numero de local que pueda modificarse")
         else:
@@ -236,42 +240,40 @@ def imprimirMenuOpcion4():
     if validarDigitos(opcion,5):
         return opcion
     print("Debe ingresar un numero del 1 al 5")
-    return imprimirMenuOpcion4
+    return imprimirMenuOpcion4()
     
 def imprimirOpcion4Aux(edificio):
     estado=True
     while estado:
         opcion=imprimirMenuOpcion4()
-        constante=True
         if int(opcion)==1:
-            while constante:
-                piso=input("Ingrese el numero de piso en el que se encuentra el local: " )
-                local=input("Ingrese el número del local del cual desea saber los ingresos: ")
-                total=indicarIngresoXLocal(piso,local,edificio)
-                if total!=False:
-                    constante=False
-            print("El ingreso del local es: "+str(total))
+            piso=input("Ingrese el numero de piso en el que se encuentra el local: " )
+            local=input("Ingrese el número del local del cual desea saber los ingresos: ") 
+            if not(esDigito(piso)and esDigito(local)):
+                print("El piso y el local deben indicarse por medio de un numero entero en el rango 1-")
+                return imprimirMenuOpcion4()
+            if not validacionRangoMat(piso,local,edificio):
+                print("El número de piso este entre 1-"+str(len(edificio))+"\nEl número de local este entre 1-"+str(len(edificio[0]))+"\n")
+                return imprimirMenuOpcion4()
+            total=indicarIngresoXLocal(piso,local,edificio)
+            if total!=False:
+                print("El ingreso del local es: "+str(total))
         elif int(opcion)==2:
-            while constante:
-                piso=input("Ingrese el número del piso de la cual desea saber los ingresos: ")
-                total=indicarIngresoXPiso(piso,edificio)
-                if total!=False:
-                    constante=False
-            print("Para un total de ingresos del piso de $:"+str(total))
+            piso=input("Ingrese el número del piso de la cual desea saber los ingresos: ")
+            total=indicarIngresoXPiso(piso,edificio)
+            if total!=False:
+                print("Para un total de ingresos del piso de $:"+str(total))
         elif int(opcion)==3:
-            while constante:
-                columna=input("Ingrese el número de la columna de la cual desea saber los ingresos: ")
-                total=indicarIngresoXColumna(columna,edificio)
-                if total!=False:
-                    constante=False
-            print("Para un total de ingresos por columna de $:"+str(total))
+            columna=input("Ingrese el número de la columna de la cual desea saber los ingresos: ")
+            total=indicarIngresoXColumna(columna,edificio)
+            if total!=False:
+                print("Para un total de ingresos por columna de $:"+str(total))
         elif int(opcion)==4:
             total=indicarIngresoTotal(edificio)
-            print("\nPara un total de ganancias de $: "+str(total))
+            if total!=False:
+                print("\nPara un total de ganancias de $: "+str(total))
         else:
             return""
-    estado=contestacion("¿Desea continuar consultando ingresos?: ")
-    return""
 
 def calDisponiblesyOcupados(pmat):
     cantDisponibles=0
@@ -330,8 +332,8 @@ def EyS():
         print("\nDebe ingresar número enteros positivos mayores que 0\nPor favor inténtelo nuevamente\n")
         return EyS()
     edificio=generarMatriz(cantPisos,cantLocales)
-    respuesta=True
-    while respuesta:
+    respuesta=False
+    while not respuesta:
         opcion=imprimirMenu()
         if int(opcion)==1:
             edificio=imprimirOpcion1Aux(edificio)
@@ -346,8 +348,8 @@ def EyS():
             imprimirOpcion5Aux(edificio)
         else:
             respuesta=contestacion('¿Está seguro que desea salir?')
-    print('\n¡Gracias por utilizar el sistema!'.center(90,' '))
-    print('\nFIN'.center(90,'='))
+    print('\n'+'¡Gracias por utilizar el sistema!'.center(90,' '))
+    print('\n'+'FIN'.center(90,'='))
     return ''
 
 #Progrma principal
