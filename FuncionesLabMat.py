@@ -12,7 +12,7 @@ def validacionRangoMat(fila,columna,matriz):
     - True
     - False
     '''
-    noMenoresCero=int(fila)>=0 and int(columna)>=0
+    noMenoresCero=int(fila)>0 and int(columna)>0
     if len(matriz)>=int(fila) and len(matriz[0])>=int(columna) and noMenoresCero:
         return True
     return False
@@ -250,21 +250,33 @@ def imprimirOpcion4Aux(edificio):
             piso=input("Ingrese el numero de piso en el que se encuentra el local: " )
             local=input("Ingrese el número del local del cual desea saber los ingresos: ") 
             if not(esDigito(piso)and esDigito(local)):
-                print("El piso y el local deben indicarse por medio de un numero entero en el rango 1-")
-                return imprimirMenuOpcion4()
+                print("El piso y el local deben indicarse por medio de un numero entero")
+                return imprimirOpcion4Aux(edificio)
             if not validacionRangoMat(piso,local,edificio):
                 print("El número de piso este entre 1-"+str(len(edificio))+"\nEl número de local este entre 1-"+str(len(edificio[0]))+"\n")
-                return imprimirMenuOpcion4()
+                return imprimirOpcion4Aux(edificio)
             total=indicarIngresoXLocal(piso,local,edificio)
             if total!=False:
                 print("El ingreso del local es: "+str(total))
         elif int(opcion)==2:
             piso=input("Ingrese el número del piso de la cual desea saber los ingresos: ")
+            if not(esDigito(piso)):
+                print("El piso deben indicarse por medio de un numero entero")
+                return imprimirOpcion4Aux(edificio)
+            if not validacionRangoMat(piso,1,edificio):
+                print("El número de piso este entre 1-"+str(len(edificio))+"\nEl número de local este entre 1-"+str(len(edificio[0]))+"\n")
+                return imprimirOpcion4Aux(edificio)
             total=indicarIngresoXPiso(piso,edificio)
             if total!=False:
                 print("Para un total de ingresos del piso de $:"+str(total))
         elif int(opcion)==3:
             columna=input("Ingrese el número de la columna de la cual desea saber los ingresos: ")
+            if not(esDigito(columna)):
+                print("La columna debe indicarse por medio de un numero entero")
+                return imprimirOpcion4Aux(edificio)
+            if not validacionRangoMat(1,columna,edificio):
+                print("El número de piso este entre 1-"+str(len(edificio))+"\nEl número de local este entre 1-"+str(len(edificio[0]))+"\n")
+                return imprimirOpcion4Aux(edificio)
             total=indicarIngresoXColumna(columna,edificio)
             if total!=False:
                 print("Para un total de ingresos por columna de $:"+str(total))
