@@ -99,6 +99,14 @@ def determinarDisponLocal(piso,local,matriz):
 
 #Definción de Funciones 
 def generarMatriz(filas,columnas):
+    '''
+    Funcionalidad: Genera una matriz donde todos los valores dentro de las listas son 0 
+    Entradas:
+    - filas(int): cantidad de listas que conformarán la matriz
+    - columanas(int): cantidad de 0's que tendrá cada lista dentro de la matriz
+    Salidas:
+    - matriz(list): matriz generada
+    '''
     matriz=[]
     for i in range(int(filas)):
         matriz.append([])
@@ -107,10 +115,27 @@ def generarMatriz(filas,columnas):
     return matriz
 
 def definirRenta(piso,local,alquiler,matriz):
+    '''
+    Funcionalidad: Modifica los montos de renta dentro de la matriz 
+    Entradas:
+    - alquiler(int): nueva renta ingresada por el usuario
+    - piso(int): piso donde se encuentra el local 
+    - local(int): número de local
+    - matriz(list): matriz donde se encuentran registrados los alquileres
+    Salidas:
+    - matriz(list): matriz con los montos modificados
+    '''
     matriz[int(piso)-1][int(local)-1]=alquiler
     return matriz
 
 def imprimirOpcion1Aux(edificio):
+    '''
+    Funcionalidad: Imprime y Realiza los cambios necesarios a la matriz en caso de que el usuario elija la opción 1
+    Entradas:
+    - edificio(list): matriz donde se encuentran registrados los alquileres
+    Salidas:
+    - edificio(list): matriz con los alquileres nuevos registrados 
+    '''
     estado=True
     while estado:
         piso=input("Ingrese el piso en el que se encuentra el local a alquilar: ")
@@ -137,6 +162,13 @@ def imprimirOpcion1Aux(edificio):
     return edificio
 
 def imprimirOpcion2Aux(edificio):
+    '''
+    Funcionalidad: Imprime y Realiza los cambios necesarios a la matriz en caso de que el usuario elija la opción 2
+    Entradas:
+    - edificio(list): matriz donde se encuentran registrados los alquileres
+    Salidas:
+    - edificio(list): matriz con los alquileres nuevos registrados 
+    '''
     estado=True
     while estado:
         piso=input("Ingrese el piso en el que se encuentra el local a modificar: ")
@@ -164,6 +196,13 @@ def imprimirOpcion2Aux(edificio):
     return edificio
 
 def imprimirOpcion3Aux(edificio):
+    '''
+    Funcionalidad: Imprime y Realiza los cambios necesarios a la matriz en caso de que el usuario elija la opción 3
+    Entradas:
+    - edificio(list): matriz donde se encuentran registrados los alquileres
+    Salidas:
+    - edificio(list): matriz con los alquileres nuevos registrados 
+    '''
     estado=True
     while estado:
         piso=input("Ingrese el piso en el que se encuentra el local a desalojar: ")
@@ -188,6 +227,15 @@ def imprimirOpcion3Aux(edificio):
     return edificio
 
 def indicarIngresoXLocal(piso,local,edificio):
+    '''
+    Funcionalidad: Indica los ingresos que genera un local específico 
+    Entradas:
+    - piso(int): piso en el que se encuentra ubicado el local
+    - local(int): número de local a indicar sus ingresos 
+    - edificio(list): matriz donde se encuentran registrados los alquileres
+    Salidas:
+    - edificio[int(piso)-1][int(local)-1](list): ingresos del local especificado
+    '''
     if not validacionRangoMat(piso,local,edificio):
         print("El local ingresado no existe, por favor verifique que: ")
         print("El número de piso este entre 1-"+str(len(edificio))+"\nEl número de local este entre 1-"+str(len(edificio[0]))+"\n")
@@ -197,6 +245,14 @@ def indicarIngresoXLocal(piso,local,edificio):
     return edificio[int(piso)-1][int(local)-1]
 
 def indicarIngresoXPiso(piso,edificio):
+    '''
+    Funcionalidad: Indica los ingresos que genera un piso específico
+    Entradas:
+    - piso(int): piso a determinar cuantos ingresos generan
+    - edificio(list): matriz donde se encuentran registrados los alquileres
+    Salidas:
+    - totalPiso(int): ingresos totales generados por el piso especficado 
+    '''
     if not validacionRangoMat(piso,1,edificio):
         print("El local ingresado no existe, por favor verifique que: ")
         print("El número de piso este entre 1-"+str(len(edificio)))
@@ -210,6 +266,14 @@ def indicarIngresoXPiso(piso,edificio):
     return totalPiso
 
 def indicarIngresoXColumna(columna,edificio):
+    '''
+    Funcionalidad: Indica los ingresos que genera una columna en específico
+    Entradas:
+    - columna(int): columna a determinar los ingresos que genera
+    - edificio(list): matriz donde se encuentran registrados los alquileres
+    Salidas:
+    - totalPiso(int): ingresos totales generados por la columna especficada
+    '''
     if not validacionRangoMat(1,columna,edificio):
         print("El local ingresado no existe, por favor verifique que: ")
         print("El número de columna este entre 1-"+str(len(edificio[0])))
@@ -223,6 +287,13 @@ def indicarIngresoXColumna(columna,edificio):
     return totalColumna
 
 def indicarIngresoTotal(edificio):
+    '''
+    Funcionalidad: Indica los ingresos que genera en total todo el edificio
+    Entradas:
+    - edificio(list): matriz donde se encuentran registrados los alquileres
+    Salidas:
+    - total(int): Ingresos totales generados por el edificio
+    '''
     total= 0
     for piso in range(len(edificio)):
         for i in range(len(edificio[piso])):
@@ -233,6 +304,13 @@ def indicarIngresoTotal(edificio):
     return total
 
 def imprimirMenuOpcion4():
+    '''
+    Funcionalidad: Imprime el menú de la opción 4 y le d ala opción de escoger al usuario
+    Entradas:
+    - N/A
+    Salidas:
+    - opción(int): opción deseada por el usuario 
+    '''
     print("\n"+"MENÚ DE INGRESOS".center(90,"="))
     print("Indique en qué formato desea ver los ingresos del edificio:")
     print("   1.Por local\n   2.Por piso\n   3.Por columna\n   4.Totalidad del edificio\n   5.Salir\n")
@@ -243,6 +321,13 @@ def imprimirMenuOpcion4():
     return imprimirMenuOpcion4()
     
 def imprimirOpcion4Aux(edificio):
+    '''
+    Funcionalidad: Imprime en caso de que el usuario elija la opción 4
+    Entradas:
+    - edificio(list): matriz que contiene los alquileres del edificio
+    Salidas:
+    - N/A
+    '''
     estado=True
     while estado:
         opcion=imprimirMenuOpcion4()
@@ -288,6 +373,13 @@ def imprimirOpcion4Aux(edificio):
             return""
 
 def calDisponiblesyOcupados(pmat):
+    '''
+    Funcionalidad: Realiza el cálculo de los locales que se encuentran disponibles y ocupados
+    Entradas:
+    - pmat(list): matriz con los datos de los alquileres 
+    Salidas:
+    - [cantDisponibles,cantOcupados](list): Lista con la cantidad de locales disponibles y desocupados 
+    '''
     cantDisponibles=0
     cantOcupados=0
     for f in range(len(pmat)):
@@ -316,6 +408,13 @@ def calcularPorcentajeMat(pnum,pmat):
     return resultado
 
 def imprimirOpcion5Aux(edificio):
+    '''
+    Funcionalidad: imprime lo necesario en caso de que el usuario ingrese la opción 5
+    Entradas:
+    - edificio(list): matriz que contiene los alquileres 
+    Salidas:
+    - N/A
+    '''
     print("Reporte total del Edificio".center(90,"="))
     disponibles=calDisponiblesyOcupados(edificio)[0]
     ocupados=calDisponiblesyOcupados(edificio)[1]
@@ -324,6 +423,13 @@ def imprimirOpcion5Aux(edificio):
     return ""
 
 def imprimirMenu():
+    '''
+    Funcionalidad: imprime el menú de opciones al usuario
+    Entradas:
+    - N/A
+    Salidas:
+    - opción(int): opción escogida por el usuario
+    '''
     while True:
         print("\n"+"Menú".center(90,"="))
         print("\n   1. Alquilar local\n   2. Modificar renta de un local\n   3. Desalojar local")
@@ -337,6 +443,13 @@ def imprimirMenu():
     return opcion
 
 def EyS():
+    '''
+    Funcionalidad: Entradas y salidas 
+    Entradas:
+    - N/A
+    Salidas:
+    - N/A
+    '''
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
     cantPisos=input("Por favor ingrese la cantidad de pisos de su edificio: ")
     cantLocales=input("Por favor ingrese la cantidad de locales por piso: ")
@@ -355,7 +468,6 @@ def EyS():
             edificio=imprimirOpcion3Aux(edificio)
         elif int(opcion)==4:
             imprimirOpcion4Aux(edificio)
-
         elif int(opcion)==5:
             imprimirOpcion5Aux(edificio)
         else:
@@ -366,9 +478,4 @@ def EyS():
 
 #Progrma principal
 EyS()
-
-
-
-#Validar vacio en todos los inputs
-#revisar 4 5 y 6
 
