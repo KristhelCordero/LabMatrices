@@ -40,3 +40,14 @@ def leerArchivoB (nomArchLeer):
     print("Se leyó con exito el archivo: ", nomArchLeer)
     f.close()
     return lista
+
+def guardarSinSobrescribir(nomArchivo,lista):
+    nomArchivo=str(nomArchivo)
+    try:
+        f=open(nomArchivo,"ab")
+        print("Grabando el archivo: ", nomArchivo)
+        pickle.dump(lista,f)
+        f.close()
+        return str(nomArchivo)+" ha sido grabado con éxito en la base de datos"
+    except:
+        return "Error al grabar el archivo: "+ str(nomArchivo)
