@@ -2,9 +2,12 @@
 #Fecha de creación: 22/4/2023 11:00am
 #Ultima versión: 27/4/2023 1:00am
 #Versión: 3.10.6 
+
+#Importación de librerias y archivos 
 import re
 from archivos import *
 from funciones import *
+
 #Validaciones
 def validacionRangoMat(fila,columna,matriz):
     '''
@@ -87,7 +90,6 @@ def validacionMonto(monto,edificio,piso,local):
     return False
 
 #Funciones de Entrada y salida
-
 def imprimirOpcion1Aux(edificio):
     '''
     Funcionalidad: Imprime y Realiza los cambios necesarios a la matriz en caso de que el usuario elija la opción 1
@@ -445,7 +447,7 @@ def EyS():
             imprimirOpcion5Aux(edificio)
         else:
             respuesta=contestacion('¿Está seguro que desea salir?')
-    print(guardarArchivoB(nombreArchivo,edificio))
+    print(sobrescribirArchivo(nombreArchivo,edificio))
     print('\n'+'¡Gracias por utilizar el sistema!'.center(90,' '))
     print('\n'+'FIN'.center(90,'='))
     return ''

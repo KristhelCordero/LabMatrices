@@ -38,3 +38,10 @@ def leerArchivoB (nomArchLeer):
     f.close()
     return lista
 
+def sobrescribirArchivo(nomArchivo,lista):
+    archivoBinario=open(nomArchivo,"wb")
+    listaBytes=bytearray(lista)
+    archivoBinario.write(listaBytes)
+    archivoBinario.close()
+    print('"'+str(nomArchivo)+'" guardado correctamente')
+    return lista
