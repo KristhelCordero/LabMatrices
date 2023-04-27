@@ -28,9 +28,9 @@ def leerArchivoB (nomArchLeer):
     - lista: contenido del archivo, generalmente una lista 
     '''
     f=open(nomArchLeer,"rb")
-    print("2. Voy a leer el archivo: ", nomArchLeer)
+    print("Leyendo el archivo: ", nomArchLeer)
     lista = pickle.load(f)
-    print("2. Voy a cerrar el archivo: ", nomArchLeer)
+    print("Se leyó con exito el archivo: ", nomArchLeer)
     f.close()
     return lista
 

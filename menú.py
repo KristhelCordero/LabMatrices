@@ -409,8 +409,9 @@ def EyS():
     - N/A
     '''
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
-    archivo=menuArchivos()[0]
-    nombreArchivo=menuArchivos()[1]
+    datosArchivo=menuArchivos()
+    archivo=datosArchivo[0]
+    nombreArchivo=datosArchivo[1]
     constante=True
     while constante:
         if archivo=='':
