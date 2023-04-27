@@ -1,4 +1,5 @@
 import re
+from archivos import *
 from funciones import *
 #Validaciones
 def validacionRangoMat(fila,columna,matriz):
@@ -362,6 +363,43 @@ def imprimirMenu():
             break
     return opcion
 
+def menuArchivos():
+    '''
+    Funcionalidad: Verifica si el usuario ya posee datos anteriores, en caso de que si, los carga;
+    de otra forma crea un archivo nuevo 
+    Entradas:
+    - N/A
+    Salidas:
+    - archivo: el archivo antiguo, o el nombre del archivo a crear
+    '''
+    print('Por favor indique 1 o 2, correspondiente a la opción que desea'
+          '\n1: Ya tengo registrado mi edificio, deseo acceder a él'
+          '\n2: Quiero crear un archivo nuevo con mi edificio'
+    )
+    valor=input('Ingrese aquí "1" o "2": ')
+    if not validarDigitos(valor,2):
+        print('Debe ingresar únicamente "1" o "2"')
+        return menuArchivos()
+    intentar=True
+    while intentar:
+        if int(valor)==1:
+            nombreArchivo=input('Ingrese el nombre que le colocó a su edificio: ')
+            try: 
+                archivo=leerArchivoB(nombreArchivo)
+                intentar=False
+            except:
+                print('Carga de archivo fallida... ')
+                print('El nombre que ingresó no existe. ')
+                respuesta=contestacion('¿Desea volver a intentarlo? En caso de indicar "N" se procederá a crear un nuevo archivo')
+                if not respuesta:
+                    valor=2
+                intentar=True
+        else: 
+            nombreArchivo=input('Ingrese el nombre que desea colocarle a su edificio: ')
+            intentar=False
+            archivo=''
+    return archivo,nombreArchivo
+
 def EyS():
     '''
     Funcionalidad: Entradas y salidas 
@@ -371,12 +409,22 @@ def EyS():
     - N/A
     '''
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
-    cantPisos=input("Por favor ingrese la cantidad de pisos de su edificio: ")
-    cantLocales=input("Por favor ingrese la cantidad de locales por piso: ")
-    if not (esDigito(cantPisos) and esDigito(cantLocales)):
-        print("\nDebe ingresar número enteros positivos mayores que 0\nPor favor inténtelo nuevamente\n")
-        return EyS()
-    edificio=generarMatriz(cantPisos,cantLocales)
+    archivo=menuArchivos()[0]
+    nombreArchivo=menuArchivos()[1]
+    constante=True
+    while constante:
+        if archivo=='':
+            cantPisos=input("Por favor ingrese la cantidad de pisos de su edificio: ")
+            cantLocales=input("Por favor ingrese la cantidad de locales por piso: ")
+            if not (esDigito(cantPisos) and esDigito(cantLocales)):
+                print("\nDebe ingresar número enteros positivos mayores que 0\nPor favor inténtelo nuevamente\n")
+            else: 
+                edificio=generarMatriz(cantPisos,cantLocales)
+                guardarArchivoB(nombreArchivo,edificio)
+                constante=False
+        else:
+            edificio=archivo
+            constante=False
     respuesta=False
     while not respuesta:
         opcion=imprimirMenu()
@@ -392,6 +440,7 @@ def EyS():
             imprimirOpcion5Aux(edificio)
         else:
             respuesta=contestacion('¿Está seguro que desea salir?')
+    print(guardarArchivoB(nombreArchivo,edificio))
     print('\n'+'¡Gracias por utilizar el sistema!'.center(90,' '))
     print('\n'+'FIN'.center(90,'='))
     return ''
