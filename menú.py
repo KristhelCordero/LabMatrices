@@ -447,7 +447,7 @@ def EyS():
             imprimirOpcion5Aux(edificio)
         else:
             respuesta=contestacion('¿Está seguro que desea salir?')
-    print(sobrescribirArchivo(nombreArchivo,edificio))
+    print(guardarArchivoB(nombreArchivo,edificio))
     print('\n'+'¡Gracias por utilizar el sistema!'.center(90,' '))
     print('\n'+'FIN'.center(90,'='))
     return ''

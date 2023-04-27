@@ -2,8 +2,11 @@
 #Fecha de creación: 22/4/2023 11:00am
 #Ultima versión: 27/4/2023 1:00am
 #Versión: 3.10.6 
+
+#Librerias 
 import pickle
 
+#Funciones
 def guardarArchivoB(nomArchGrabar,lista):
     '''
     Funcionalidad: Toma una lista y la graba en un archivo binario
@@ -36,12 +39,4 @@ def leerArchivoB (nomArchLeer):
     lista = pickle.load(f)
     print("Se leyó con exito el archivo: ", nomArchLeer)
     f.close()
-    return lista
-
-def sobrescribirArchivo(nomArchivo,lista):
-    archivoBinario=open(nomArchivo,"wb")
-    listaBytes=bytearray(lista)
-    archivoBinario.write(listaBytes)
-    archivoBinario.close()
-    print('"'+str(nomArchivo)+'" guardado correctamente')
     return lista
