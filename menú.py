@@ -416,6 +416,11 @@ def EyS():
     '''
     print("Bienvenido al Sistema de Administración de Locales".center(90,"="))
     datosArchivo=menuArchivos()
+    '''
+    El archivo Base de Datos, actualmente contiene un edificio ya creado y modificado.
+    Si se desea seguir editando el mismo, al momento de solicitar que ingrese el nombre de un archivo ya 
+    existente se debe ingresar el nombre: Base de Datos 
+    '''
     archivo=datosArchivo[0]
     nombreArchivo=datosArchivo[1]
     constante=True
@@ -447,6 +452,7 @@ def EyS():
             imprimirOpcion5Aux(edificio)
         else:
             respuesta=contestacion('¿Está seguro que desea salir?')
+    print(" ")
     print(guardarArchivoB(nombreArchivo,edificio))
     print('\n'+'¡Gracias por utilizar el sistema!'.center(90,' '))
     print('\n'+'FIN'.center(90,'='))
