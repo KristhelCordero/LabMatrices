@@ -1,3 +1,7 @@
+#Elaborado por: Kristel Cordero y Kendall Piedra
+#Fecha de creación: 22/4/2023 11:00am
+#Ultima versión: 27/4/2023 1:00am
+#Versión: 3.10.6 
 import pickle
 
 def guardarArchivoB(nomArchGrabar,lista):
